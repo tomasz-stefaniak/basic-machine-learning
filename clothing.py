@@ -99,20 +99,24 @@ def plot_value_array(index, predictions_array, true_label):
     thisplot[true_label].set_color('blue')
 
 
+def display_predictions(test_images, test_labels, predictions):
+    num_rows = 5
+    num_cols = 3
+    num_images = num_rows*num_cols
+    plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+    for index in range(num_images):
+        plt.subplot(num_rows, 2*num_cols, 2*index+1)
+        plot_image(index, predictions[index], test_labels, test_images)
+        plt.subplot(num_rows, 2*num_cols, 2*index+2)
+        plot_value_array(index, predictions[index], test_labels)
+    plt.tight_layout()
+    plt.show()
+
+
 # display_single_image()
 # display_images_with_labels()
 model = setup_model(train_images, train_labels, test_images, test_labels)
 
 predictions = model.predict(test_images)
 
-num_rows = 5
-num_cols = 3
-num_images = num_rows*num_cols
-plt.figure(figsize=(2*2*num_cols, 2*num_rows))
-for i in range(num_images):
-    plt.subplot(num_rows, 2*num_cols, 2*i+1)
-    plot_image(i, predictions[i], test_labels, test_images)
-    plt.subplot(num_rows, 2*num_cols, 2*i+2)
-    plot_value_array(i, predictions[i], test_labels)
-plt.tight_layout()
-plt.show()
+display_predictions(test_images, test_labels, predictions)
